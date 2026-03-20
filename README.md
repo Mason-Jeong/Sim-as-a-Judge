@@ -10,14 +10,13 @@
 <p align="center">
   <img src="docs/figures/pipeline_overview.png" width="800"/>
 </p>
-
-## TL;DR
+## Introduction
 
 Sim-as-a-Judge uses **physics simulation as an automated judge** to evaluate whether synthetic robot trajectories (e.g., from World Foundation Models, teleoperation, or generative pipelines) are physically plausible and task-faithful — before deploying them for policy learning.
 
 ## Motivation
 
-In the Physical AI era, data augmentation pipelines (World Foundation Models → IDM → action extraction) are becoming the primary source of robot training data. But **not all synthetic data is created equal**:
+In the Physical AI era, data augmentation pipelines (World Foundation Models → action extraction model → Making trajectory) are becoming the primary source of robot training data. But **not all synthetic data is created equal**:
 
 - Trajectories may violate joint limits or physics constraints
 - Generated motions may collide with the environment or the robot itself
@@ -353,6 +352,8 @@ python scripts/gen_report.py \
 
 ## Citation
 
+If you find this work useful, please cite:
+
 ```bibtex
 @article{jeong2025simjudge,
     title={Sim-as-a-Judge: Physics-Grounded Validation of Synthetic Robot Trajectories},
@@ -364,10 +365,19 @@ python scripts/gen_report.py \
 
 ## Acknowledgments
 
-This work was conducted at **Surromind AI** as part of the Physical AI research initiative. We thank the NVIDIA Isaac Sim and Cosmos teams for providing the simulation and world model foundations.
+I gratefully acknowledge the following projects and resources that made this work possible:
+
+**Simulation & Robot Frameworks**
+- NVIDIA Isaac Sim(https://docs.isaacsim.omniverse.nvidia.com/5.1.0/index.html) — Physics simulation platform providing PhysX-based collision detection and articulation support
+- Unitree RL Lab(https://github.com/unitreerobotics/unitree_rl_lab) — RL training framework for Unitree robots on Isaac Lab
+- Unitree Sim IsaacLab(https://github.com/unitreerobotics/unitree_sim_isaaclab) — Isaac Sim integration for Unitree humanoid robots, including G1 29-DOF pick-and-place task configurations
+
+**Synthetic Data & World Models**
+- DreamGen(https://arxiv.org/abs/2505.12705) — Synthetic robot data generation pipeline via video world models, whose DreamGen Bench evaluation framework motivated our physics-grounded validation approach
+- GR00T-Dreams(https://github.com/NVIDIA/GR00T-Dreams) — NVIDIA's synthetic data generation pipeline for robot learning using Cosmos world foundation models
+
+Thank you NVIDIA Isaac Sim, Cosmos, and GR00T teams for the simulation and world model foundations, and the Unitree Robotics team for open-sourcing the robot simulation frameworks.
 
 ## License
 
 This project is licensed under the Apache License 2.0 — see [LICENSE](LICENSE) for details.
-
-> **Note**: Robot demonstration data (DMP trajectories) are proprietary and not included in this repository.
