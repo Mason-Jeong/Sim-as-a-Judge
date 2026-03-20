@@ -1,0 +1,18 @@
+# configs/tasks/pick_place.yaml
+task: pick_place
+criteria:
+  reach:
+    distance_threshold: 0.10
+  grasp:
+    finger_close_threshold: 0.5
+  lift:
+    min_height_delta: 0.05
+  place:
+    target_position: [0.6, -0.3, 0.7]
+    distance_threshold: 0.10
+subtask_weights:
+  reach: 0.2
+  grasp: 0.3
+  lift: 0.3
+  place: 0.2
+success_threshold: 0.8

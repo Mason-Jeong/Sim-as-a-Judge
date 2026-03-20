@@ -1,0 +1,30 @@
+Eval config · YAML
+복사
+
+# configs/eval_config.yaml
+physics:
+  dt: 0.005
+  gravity: [0, 0, -9.81]
+ 
+collision:
+  force_threshold: 1.0  # Newtons
+ 
+joint_limits:
+  tolerance: 0.05  # rad
+ 
+gravity:
+  upward_accel_threshold: 4.9  # m/s² (0.5g)
+ 
+task_fidelity:
+  reach_threshold: 0.10
+  grasp_threshold: 0.08
+  lift_min_delta: 0.05
+  place_threshold: 0.10
+ 
+metric_weights:
+  joint_limit: 0.3
+  collision: 0.3
+  gravity: 0.2
+  task_fidelity: 0.2
+ 
+pass_threshold: 0.8
