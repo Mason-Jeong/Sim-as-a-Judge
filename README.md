@@ -2,13 +2,10 @@
 
 **A Physics-Grounded Validation Framework for Synthetic Robot Trajectory Data**
 
-[![arXiv](https://img.shields.io/badge/arXiv-2025.XXXXX-b31b1b.svg)](https://arxiv.org/abs/2025.XXXXX)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/Python-3.10+-green.svg)](https://www.python.org/)
 [![Isaac Sim](https://img.shields.io/badge/Isaac%20Sim-5.0-76B900.svg)](https://developer.nvidia.com/isaac-sim)
 
-<p align="center">
-  <img src="docs/figures/pipeline_overview.png" width="800"/>
 </p>
 ## Introduction
 
