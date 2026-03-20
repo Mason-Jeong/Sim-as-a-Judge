@@ -4,7 +4,7 @@
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/Python-3.10+-green.svg)](https://www.python.org/)
-[![Isaac Sim](https://img.shields.io/badge/Isaac%20Sim-4.5%2B-76B900.svg)](https://developer.nvidia.com/isaac-sim)
+[![Isaac Sim](https://img.shields.io/badge/Isaac%20Sim-5.0%2B-76B900.svg)](https://developer.nvidia.com/isaac-sim)
 
 ## 
 This repository does not guarantee out-of-the-box execution. Code modifications may be required to run, and all experiments were conducted on the Isaac Sim 5.0 Docker container from https://github.com/unitreerobotics/unitree_rl_lab
