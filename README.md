@@ -8,7 +8,7 @@
 
 ## Motivation
 
-In the Physical AI era, data augmentation pipelines — from World Foundation Models (e.g., Cosmos) to IDM-based action extraction — are becoming the primary source of robot training data. But **not all synthetic data is created equal**:
+In the Physical AI era, data augmentation pipelines — from World Foundation Models (e.g., Cosmos) to action extraction — are becoming the primary source of robot training data. But **not all synthetic data is created equal**:
 
 - Trajectories may violate joint limits or physics constraints
 - Generated motions may collide with the environment or the robot itself
@@ -21,7 +21,7 @@ Sim-as-a-Judge answers this by **replaying trajectories inside a physics simulat
 
 ## Approach
 
-Our core idea is simple: **if a trajectory is physically valid, it should survive replay in a physics simulator without anomalies.**
+My core idea is simple: **if a trajectory is physically valid, it should survive replay in a physics simulator without anomalies.**
 
 ### Pipeline
 
@@ -38,7 +38,7 @@ Our core idea is simple: **if a trajectory is physically valid, it should surviv
 └─────────────────────┘     └──────────────────────┘     └─────────────────────┘
 ```
 
-### What We Built
+### What I Built
 
 1. **Isaac Sim Replay Engine** (`replay_and_evaluate.py`)
    - Loads Unitree G1 29-DOF + Inspire Hand USD into a configured scene (table, objects, environment)
