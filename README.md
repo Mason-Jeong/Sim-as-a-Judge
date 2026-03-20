@@ -6,6 +6,8 @@
 [![Python](https://img.shields.io/badge/Python-3.10+-green.svg)](https://www.python.org/)
 [![Isaac Sim](https://img.shields.io/badge/Isaac%20Sim-4.5%2B-76B900.svg)](https://developer.nvidia.com/isaac-sim)
 
+## 
+This repository does not guarantee out-of-the-box execution. Code modifications may be required to run, and all experiments were conducted on the Isaac Sim 5.0 Docker container from https://github.com/unitreerobotics/unitree_rl_lab
 ## Motivation
 
 In the Physical AI era, data augmentation pipelines — from World Foundation Models (e.g., Cosmos) to action extraction — are becoming the primary source of robot training data. But **not all synthetic data is created equal**:
@@ -45,8 +47,6 @@ My core idea is simple: **if a trajectory is physically valid, it should survive
    - Parses LeRobot v2 parquet files and maps 26D actions (14 arm + 12 hand) to Isaac Sim joint indices
    - Replays trajectories frame-by-frame with physics stepping, collecting per-frame diagnostic data
    - Records MP4 video for visual inspection
-Playing
-![Image](https://github.com/user-attachments/assets/2a0385d8-dada-4cc7-be0a-30b33446aa67)
 
 2. **Physics-Grounded Checkers** (integrated into the replay loop)
    - **Joint Limit Checker** — flags frames where joint positions exceed USD-defined limits
@@ -55,6 +55,13 @@ Playing
    - **Task Fidelity Checker** — scores whether the trajectory achieves subtask goals (reach, grasp, lift, place)
 
 3. **Report Generator** — produces per-trajectory and batch-level quality reports (JSON + HTML)
+
+### Example
+- Example of a trajectory flagged as FAIL by Sim-as-a-Judge.
+- The object exhibits upward acceleration inconsistent with gravity, and the end-effector fails to reach the grasp target within the threshold distance (task fidelity failure).
+- These anomalies, which are difficult to detect from video alone, are automatically captured by per-frame physics checking during simulation replay.
+![Image](https://github.com/user-attachments/assets/2a0385d8-dada-4cc7-be0a-30b33446aa67)
+![Image](https://github.com/user-attachments/assets/084e19bc-b673-499b-baf2-98bd4518fff4)
 
 ### How Checkers Integrate with the Replay Loop
 
@@ -242,6 +249,7 @@ ehdtmxk12@g.hongik.ac.kr
 ## Disclaimer
 
 This project is under active development. We assume no responsibility for any physical damage, malfunction, or unintended consequences resulting from deploying trajectories validated by this framework directly on real robots. Users are solely responsible for conducting additional safety checks before real-world deployment.
+
 
 ## License
 
