@@ -7,6 +7,7 @@
 [![Isaac Sim](https://img.shields.io/badge/Isaac%20Sim-5.0-76B900.svg)](https://developer.nvidia.com/isaac-sim)
 
 </p>
+
 ## Introduction
 
 Sim-as-a-Judge uses **physics simulation as an automated judge** to evaluate whether synthetic robot trajectories (e.g., from World Foundation Models, teleoperation, or generative pipelines) are physically plausible and task-faithful — before deploying them for policy learning.
@@ -33,11 +34,11 @@ In the Physical AI era, data augmentation pipelines (World Foundation Models →
 ## Pipeline
 
 ```
-┌──────────────────┐     ┌───────────────────┐     ┌──────────────────┐
-│  Synthetic Data   │     │   Isaac Sim +      │     │  Quality Report  │
-│  (parquet/LeRobot)│────▶│   PhysX Replay     │────▶│  pass/fail +     │
-│                   │     │                    │     │  per-metric score│
-└──────────────────┘     └───────────────────┘     └──────────────────┘
+┌──────────────────┐     ┌───────────────────┐      ┌──────────────────┐
+│  Synthetic Data  │     │   Isaac Sim +     │      │  Quality Report  │
+│ (parquet/LeRobot)│───▶│   PhysX Replay    │────▶│  pass/fail +     │
+│                  │     │                   │      │  per-metric score│
+└──────────────────┘     └───────────────────┘      └──────────────────┘
         │                         │                         │
    action joints           collision check             CSV / JSON
    observation.state       joint limit check           visualization
@@ -349,16 +350,12 @@ python scripts/gen_report.py \
 
 ## Citation
 
-If you find this work useful, please cite:
+welcome contributions, feedback, and collaboration — if you're working on synthetic data validation, sim-to-real transfer, or Physical AI data pipelines, feel free to open an issue or reach out,
+contact ehdtmxk12@g.hongik.ac.kr
 
-```bibtex
-@article{jeong2025simjudge,
-    title={Sim-as-a-Judge: Physics-Grounded Validation of Synthetic Robot Trajectories},
-    author={Jeong, Yongwoo and Choi, Hyerin},
-    journal={arXiv preprint arXiv:2025.XXXXX},
-    year={2025}
-}
-```
+## Disclaimer
+
+This project is under active development. I assume no responsibility for any physical damage, malfunction, or unintended consequences resulting from deploying trajectories validated by this framework directly on real robots. Users are solely responsible for conducting additional safety checks before real-world deployment.
 
 ## Acknowledgments
 
