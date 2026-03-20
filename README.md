@@ -40,11 +40,13 @@ My core idea is simple: **if a trajectory is physically valid, it should survive
 
 ### What I Built
 
-1. **Isaac Sim Replay Engine** (`replay_and_evaluate.py`)
+1. **Isaac Sim Replay** (`replay_and_evaluate.py`)
    - Loads Unitree G1 29-DOF + Inspire Hand USD into a configured scene (table, objects, environment)
    - Parses LeRobot v2 parquet files and maps 26D actions (14 arm + 12 hand) to Isaac Sim joint indices
    - Replays trajectories frame-by-frame with physics stepping, collecting per-frame diagnostic data
    - Records MP4 video for visual inspection
+Playing
+![Image](https://github.com/user-attachments/assets/2a0385d8-dada-4cc7-be0a-30b33446aa67)
 
 2. **Physics-Grounded Checkers** (integrated into the replay loop)
    - **Joint Limit Checker** — flags frames where joint positions exceed USD-defined limits
