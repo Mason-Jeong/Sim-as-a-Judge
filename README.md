@@ -43,8 +43,8 @@ My core idea is simple: **if a trajectory is physically valid, it should survive
 ### What I Built
 
 1. **Isaac Sim Replay** (`replay_and_evaluate.py`)
-   - Loads Unitree G1 29-DOF + Inspire Hand USD into a configured scene (table, objects, environment)
-   - Parses LeRobot v2 parquet files and maps 26D actions (14 arm + 12 hand) to Isaac Sim joint indices
+   - Loads Unitree G1 USD into a configured scene (table, objects, environment)
+   - Parses LeRobot v2 parquet files and maps actions to Isaac Sim joint indices
    - Replays trajectories frame-by-frame with physics stepping, collecting per-frame diagnostic data
    - Records MP4 video for visual inspection
 
@@ -105,24 +105,13 @@ verdict = SimJudge.aggregate(
 | **Gravity** | Objects don't float or teleport | Object prim world transform | Gravity violation score |
 | **Task Fidelity** | EE reaches object, grasps, lifts, places | EE + object world positions | Subtask completion scores (0–1) |
 
-## Robot & Data Configuration
-
-### Unitree G1 29-DOF + Inspire Hand
-
-| Property | Value |
-|----------|-------|
-| Total DOF | 49 (29 body + 20 hand) |
-| Controlled DOF | 26 (14 arm + 12 hand) |
-| Data format | LeRobot v2 parquet |
-| Action dim | 26D absolute joint positions |
-
-### Joint Mapping (Parquet Index → Isaac Sim Joint)
+### Joint Mapping (Parquet Index → Isaac Sim Joint) example
 
 ```
 Parquet [0:7]   → Left arm:  shoulder_pitch/roll/yaw, elbow, wrist_roll/pitch/yaw
 Parquet [7:14]  → Right arm: shoulder_pitch/roll/yaw, elbow, wrist_roll/pitch/yaw
 Parquet [14:20] → Left hand:  pinky, ring, middle, index, thumb_pitch, thumb_yaw
-Parquet [20:26] → Right hand: pinky, ring, middle, index, thumb_pitch, thumb_yaw
+etc ... 
 ```
 
 ## Project Structure
@@ -133,7 +122,7 @@ sim-as-a-judge/
 ├── LICENSE
 ├── requirements.txt
 │
-├── replay_and_evaluate.py          # ★ Main script: replay + evaluation
+├── replay_and_evaluate.py          # Main script: replay + evaluation
 │
 ├── sim_judge/                      # Checker modules
 │   ├── __init__.py
@@ -147,9 +136,9 @@ sim-as-a-judge/
 ├── configs/
 │   ├── eval_config.yaml            # Metric thresholds and weights
 │   ├── joint_maps/
-│   │   └── g1_inspire.yaml         # 26D parquet ↔ Isaac Sim mapping
+│   │   └── your_robot_joint.yaml         #  parquet ↔ Isaac Sim mapping
 │   └── tasks/
-│       └── pick_place.yaml         # Task success criteria
+│       └── your_task.yaml         # Task success criteria
 │
 ├── data/
 │   └── sample/
@@ -159,9 +148,6 @@ sim-as-a-judge/
 │
 └── docs/
     └── figures/
-        ├── pipeline_overview.png
-        ├── metric_comparison.png
-        └── failure_examples.png
 ```
 
 ## Usage
@@ -172,7 +158,7 @@ sim-as-a-judge/
 # Inside Isaac Sim container or environment
 python replay_and_evaluate.py \
     --parquet data/sample/episode_000000.parquet \
-    --robot-usd g1_29dof_with_inspire_rev_1_0.usd \
+    --robot-usd your_robot.usd \
     --output-video results/replay.mp4 \
     --output-report results/eval_report.json
 ```
@@ -182,7 +168,7 @@ python replay_and_evaluate.py \
 ```bash
 python replay_and_evaluate.py \
     --parquet-dir data/episodes/ \
-    --robot-usd g1_29dof_with_inspire_rev_1_0.usd \
+    --robot-usd your_robot.usd \
     --output-report results/batch_report.json
 ```
 
@@ -200,9 +186,6 @@ python -m sim_judge.report \
 
 ```
 Episode: episode_000000
-Frames:  696
-Duration: 6.96s
-
 ┌────────────────┬───────┬──────────────────────────────────┐
 │ Metric         │ Score │ Details                          │
 ├────────────────┼───────┼──────────────────────────────────┤
