@@ -1,6 +1,3 @@
-Eval config · YAML
-복사
-
 # configs/eval_config.yaml
 physics:
   dt: 0.001
