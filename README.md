@@ -2,7 +2,7 @@
 
 **A Physics-Grounded Validation Framework for Synthetic Robot Trajectory Data**
 
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
+[![License: CC BY-NC-ND 4.0](https://img.shields.io/badge/License-CC%20BY--NC--ND%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc-nd/4.0/)
 [![Python](https://img.shields.io/badge/Python-3.10+-green.svg)](https://www.python.org/)
 [![Isaac Sim](https://img.shields.io/badge/Isaac%20Sim-5.0%2B-76B900.svg)](https://developer.nvidia.com/isaac-sim)
 
@@ -236,4 +236,7 @@ This project is under active development. We assume no responsibility for any ph
 
 ## License
 
-This project is licensed under the Apache License 2.0 — see [LICENSE](LICENSE) for details.
+This work is licensed under [CC BY-NC-ND 4.0](https://creativecommons.org/licenses/by-nc-nd/4.0/).
+
+### Third-Party Licenses
+
