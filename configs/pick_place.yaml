@@ -2,17 +2,19 @@
 task: pick_place
 criteria:
   reach:
-    distance_threshold: 0.10
+    distance_threshold: 0.1
   grasp:
-    finger_close_threshold: 0.5
+    finger_close_threshold: 0.1
   lift:
-    min_height_delta: 0.05
+    min_height_delta: 0.1
   place:
-    target_position: [0.6, -0.3, 0.7]
+    target_position: [0.1, -0.1, 0.1]
     distance_threshold: 0.10
 subtask_weights:
-  reach: 0.2
-  grasp: 0.3
-  lift: 0.3
-  place: 0.2
-success_threshold: 0.8
+  reach: 0.1
+  grasp: 0.1
+  lift: 0.1
+  place: 0.1
+success_threshold: 0.1
+
+#set up your own parameter in this section, it's just example
