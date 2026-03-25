@@ -3,28 +3,29 @@ Eval config · YAML
 
 # configs/eval_config.yaml
 physics:
-  dt: 0.005
-  gravity: [0, 0, -9.81]
+  dt: 0.001
+  gravity: [0, 0, 0.0]
  
 collision:
   force_threshold: 1.0  # Newtons
  
 joint_limits:
-  tolerance: 0.05  # rad
+  tolerance: 0.01  # rad
  
 gravity:
-  upward_accel_threshold: 4.9  # m/s² (0.5g)
+  upward_accel_threshold: 1.9  # m/s² (0.5g)
  
 task_fidelity:
   reach_threshold: 0.10
-  grasp_threshold: 0.08
-  lift_min_delta: 0.05
+  grasp_threshold: 0.10
+  lift_min_delta: 0.10
   place_threshold: 0.10
  
 metric_weights:
-  joint_limit: 0.3
-  collision: 0.3
-  gravity: 0.2
-  task_fidelity: 0.2
+  joint_limit: 0.1
+  collision: 0.1
+  gravity: 0.1
+  task_fidelity: 0.1
  
-pass_threshold: 0.8
+pass_threshold: 0.1
+#set up your own parameter in this section, it's just example
