@@ -156,7 +156,7 @@ sim-as-a-judge/
 │   └── 29dof/usd/g1_29dof_rev_1_0/
 │
 ├── data/                           # Trajectory dataset (LeRobot v2 parquet)
-│   ├── data/chunk-000/             # Episode parquet files
+│   ├── episodes/chunk-000/         # Episode parquet files
 │   └── meta/                       # Dataset metadata
 │
 ├── results/                        # Generated reports (gitignored)
@@ -195,7 +195,7 @@ python scripts/verify_env.py
 
 ```bash
 python replay_and_evaluate.py \
-    --parquet data/data/chunk-000/episode_000001.parquet \
+    --parquet data/episodes/chunk-000/episode_000001.parquet \
     --robot-usd assets/g1_29dof/g1-29dof-inspire-base-fix-usd/g1_29dof_with_inspire_rev_1_0.usd \
     --output-video results/replay.mp4 \
     --output-report results/eval_report.json
@@ -205,7 +205,7 @@ python replay_and_evaluate.py \
 
 ```bash
 python replay_and_evaluate.py \
-    --parquet-dir data/data/chunk-000 \
+    --parquet-dir data/episodes/chunk-000 \
     --robot-usd assets/g1_29dof/g1-29dof-inspire-base-fix-usd/g1_29dof_with_inspire_rev_1_0.usd \
     --output-dir results/batch \
     --output-report results/batch_report.json
@@ -215,7 +215,7 @@ python replay_and_evaluate.py \
 
 ```bash
 python replay_and_evaluate.py \
-    --parquet-dir data/data/chunk-000 \
+    --parquet-dir data/episodes/chunk-000 \
     --robot-usd assets/g1_29dof/g1-29dof-inspire-base-fix-usd/g1_29dof_with_inspire_rev_1_0.usd \
     --output-dir results/batch \
     --output-report results/batch_report.json \

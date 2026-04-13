@@ -7,7 +7,7 @@ replays trajectories with physics stepping, and runs per-frame quality checkers.
 
 Usage (single episode — parquet):
     python replay_and_evaluate.py \\
-        --parquet data/data/chunk-000/episode_000001.parquet \\
+        --parquet data/episodes/chunk-000/episode_000001.parquet \\
         --robot-usd assets/g1_29dof/g1-29dof-inspire-base-fix-usd/g1_29dof_with_inspire_rev_1_0.usd \\
         --output-video results/replay.mp4 \\
         --output-report results/eval_report.json
@@ -20,7 +20,7 @@ Usage (single episode — JSON):
 
 Usage (batch — all parquet files in a directory):
     python replay_and_evaluate.py \\
-        --parquet-dir data/data/chunk-000 \\
+        --parquet-dir data/episodes/chunk-000 \\
         --robot-usd assets/g1_29dof/g1-29dof-inspire-base-fix-usd/g1_29dof_with_inspire_rev_1_0.usd \\
         --output-dir results/batch \\
         --output-report results/batch_report.json \\

@@ -35,7 +35,7 @@ assets/g1_29dof/**/.thumbs/
 assets/g1_29dof/**/.asset_hash
 
 # Episode data (too large for git)
-data/data/
+data/episodes/
 data/episode_*/
 data/meta/
 

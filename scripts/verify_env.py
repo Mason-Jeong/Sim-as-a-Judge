@@ -73,7 +73,7 @@ def main() -> int:
     if data_result.directory_exists:
         print(f"  Parquet files: {data_result.parquet_count}")
         if data_result.parquet_count == 0:
-            print("  [WARN] No parquet files found in data/data/chunk-000/")
+            print("  [WARN] No parquet files found in data/episodes/chunk-000/")
     else:
         print(f"  [WARN] Data directory not found: {data_dir}")
 
