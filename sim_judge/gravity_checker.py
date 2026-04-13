@@ -2,6 +2,7 @@
 """Per-frame gravity consistency validation during Isaac Sim replay."""
 
 from __future__ import annotations
+from collections import deque
 from dataclasses import dataclass, field
 import numpy as np
 
@@ -39,11 +40,11 @@ class GravityChecker:
         self.threshold = upward_accel_threshold  # 0.5g default
         self.total_frames = 0
 
-        self._positions = []
-        self._violation_frames = []
+        self._positions: deque[tuple[int, np.ndarray]] = deque(maxlen=3)
+        self._violation_frames: list[int] = []
         self._max_upward = 0.0
 
-    def check_frame(self, frame_idx: int, object_position: np.ndarray):
+    def check_frame(self, frame_idx: int, object_position: np.ndarray) -> None:
         """Record object position. Violations computed after 3+ frames."""
         self.total_frames += 1
         pos = np.array(object_position, dtype=np.float64)

@@ -1,0 +1,74 @@
+# Scene config for "pick up the apple and place it in the blue basket."
+# Reconstructed from episode_0531 camera images + EE trajectory analysis.
+# Environment: Laboratory
+#
+# Object positions calibrated to EE reach area:
+#   EE reaches x≈0.22-0.31, y≈0.23-0.43, z≈0.83-0.97
+
+task: "pick up the apple and place it in the blue basket."
+
+environment:
+  usd: "Environments/Simple_Warehouse/warehouse.usd"
+
+table:
+  usd: "Props/PackingTable/packing_table.usd"
+  prim_path: "/World/Table"
+  position: [0.30, 0.0, 0.0]
+  rotation: [0, 0, -90]
+  scale: [1.0, 1.0, 0.7]
+
+objects:
+  # Apple — at EE grasp position (frame 233: x=0.117, y=0.242, z=0.780)
+  # FixedCuboid so it stays at hand level and doesn't pop out from physics
+  - name: apple
+    type: FixedCuboid
+    prim_path: "/World/Apple"
+    position: [0.117, 0.242, 0.76]
+    color: [0.85, 0.1, 0.1]
+    size: [0.025, 0.025, 0.025]
+
+  # Orange — offset from apple
+  - name: orange
+    type: DynamicCuboid
+    prim_path: "/World/Orange"
+    position: [0.18, 0.14, 0.73]
+    color: [0.95, 0.55, 0.05]
+    size: [0.04, 0.04, 0.04]
+    mass: 0.15
+
+  # Red sponge left
+  - name: red_sponge_left
+    type: DynamicCuboid
+    prim_path: "/World/RedSpongeLeft"
+    position: [0.20, 0.30, 0.73]
+    color: [0.85, 0.1, 0.15]
+    size: [0.05, 0.03, 0.025]
+    mass: 0.05
+
+  # Red sponge right
+  - name: red_sponge_right
+    type: DynamicCuboid
+    prim_path: "/World/RedSpongeRight"
+    position: [0.20, 0.05, 0.73]
+    color: [0.85, 0.1, 0.15]
+    size: [0.05, 0.03, 0.025]
+    mass: 0.05
+
+  # Blue basket — far side of table (opposite from robot)
+  - name: blue_basket
+    type: FixedCuboid
+    prim_path: "/World/BlueBasket"
+    position: [0.45, 0.20, 0.73]
+    color: [0.15, 0.35, 0.85]
+    size: [0.06, 0.05, 0.025]
+
+  # Red basket — far side of table (opposite from robot)
+  - name: red_basket
+    type: FixedCuboid
+    prim_path: "/World/RedBasket"
+    position: [0.45, -0.20, 0.73]
+    color: [0.85, 0.15, 0.1]
+    size: [0.06, 0.05, 0.025]
+
+target_object: "/World/Apple"
+ee_prim_path: "/World/G1/left_wrist_yaw_link"

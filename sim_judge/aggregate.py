@@ -55,7 +55,7 @@ def aggregate(
     collision: CollisionResult,
     gravity: GravityResult,
     task_fidelity: TaskFidelityResult,
-    weights: dict = None,
+    weights: dict[str, float] | None = None,
     pass_threshold: float = 0.8,
 ) -> SimJudgeVerdict:
     """Combine all checker results into a final verdict."""

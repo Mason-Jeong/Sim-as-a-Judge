@@ -1,0 +1,19 @@
+# Default scene — warehouse + table only, no task-specific objects.
+# Used as fallback when task description doesn't match any scene config.
+
+task: "default"
+
+environment:
+  usd: "Environments/Warehouse/warehouse.usd"
+
+table:
+  usd: "Props/PackingTable/packing_table.usd"
+  prim_path: "/World/Table"
+  position: [0.75, 0.0, 0.0]
+  rotation: [0, 0, 0]
+  scale: [1.0, 1.0, 0.7]
+
+objects: []
+
+target_object: null
+ee_prim_path: "/World/G1/left_wrist_yaw_link"

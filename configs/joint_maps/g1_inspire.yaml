@@ -1,7 +1,16 @@
 # configs/joint_maps/g1_inspire.yaml
+# Maps parquet observation indices to Isaac Sim DOF names.
+#
+# Parquet columns: observation.left_arm (7), observation.right_arm (7),
+#   observation.left_gripper (scalar), observation.right_gripper (scalar)
+# Total mapped: 14 arm + 12 hand = 26 DOF
+#
+# Hand joints use L_/R_ prefix in the USD (Inspire hand naming convention).
+
 robot: unitree_g1_29dof_inspire
 dof: 26
 mapping:
+  # Left arm (observation.left_arm indices 0-6)
   0: left_shoulder_pitch_joint
   1: left_shoulder_roll_joint
   2: left_shoulder_yaw_joint
@@ -9,6 +18,7 @@ mapping:
   4: left_wrist_roll_joint
   5: left_wrist_pitch_joint
   6: left_wrist_yaw_joint
+  # Right arm (observation.right_arm indices 0-6)
   7: right_shoulder_pitch_joint
   8: right_shoulder_roll_joint
   9: right_shoulder_yaw_joint
@@ -16,16 +26,17 @@ mapping:
   11: right_wrist_roll_joint
   12: right_wrist_pitch_joint
   13: right_wrist_yaw_joint
-  14: left_pinky_proximal_joint
-  15: left_ring_proximal_joint
-  16: left_middle_proximal_joint
-  17: left_index_proximal_joint
-  18: left_thumb_proximal_pitch_joint
-  19: left_thumb_proximal_yaw_joint
-  20: right_pinky_proximal_joint
-  21: right_ring_proximal_joint
-  22: right_middle_proximal_joint
-  23: right_index_proximal_joint
-  24: right_thumb_proximal_pitch_joint
-  25: right_thumb_proximal_yaw_joint
-##This is just example of joint name. You must match the name of config and the dataset(parquet). 
+  # Left hand (mapped from observation.left_gripper)
+  14: L_pinky_proximal_joint
+  15: L_ring_proximal_joint
+  16: L_middle_proximal_joint
+  17: L_index_proximal_joint
+  18: L_thumb_proximal_pitch_joint
+  19: L_thumb_proximal_yaw_joint
+  # Right hand (mapped from observation.right_gripper)
+  20: R_pinky_proximal_joint
+  21: R_ring_proximal_joint
+  22: R_middle_proximal_joint
+  23: R_index_proximal_joint
+  24: R_thumb_proximal_pitch_joint
+  25: R_thumb_proximal_yaw_joint

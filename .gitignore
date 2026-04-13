@@ -1,0 +1,44 @@
+# Results
+results/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+*.egg
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Environment
+.env
+.env.*
+*.log
+
+# Isaac Sim
+*.dmp
+kit/logs/
+
+# pytest
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Large binary assets (use Git LFS or share separately)
+assets/g1_29dof/**/*.usd
+assets/g1_29dof/**/.thumbs/
+assets/g1_29dof/**/.asset_hash
+
+# Episode data (too large for git)
+data/data/
+data/episode_*/
+data/meta/
+
+# OS
+.DS_Store
+Thumbs.db

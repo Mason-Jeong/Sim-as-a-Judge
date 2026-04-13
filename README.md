@@ -119,30 +119,45 @@ etc ...
 ```
 sim-as-a-judge/
 ├── README.md
-├── LICENSE
-├── requirements.txt
+├── requirements.txt                # Python dependencies (non-Isaac Sim)
+├── pyproject.toml                  # Package metadata & pip install support
 │
-├── replay_and_evaluate.py          # Main script: replay + evaluation
+├── replay_and_evaluate.py          # Main script: single & batch replay + evaluation
 │
-├── sim_judge/                      # Checker modules
+├── sim_judge/                      # Core validation package
 │   ├── __init__.py
 │   ├── joint_limit_checker.py      # Per-frame joint limit validation
 │   ├── collision_checker.py        # PhysX contact force analysis
 │   ├── gravity_checker.py          # Object gravity consistency
 │   ├── task_fidelity_checker.py    # Subtask completion scoring
 │   ├── aggregate.py                # Combine checkers → verdict
-│   └── report.py                   # JSON + HTML report generation
+│   ├── report.py                   # JSON report generation
+│   ├── config_loader.py            # YAML config loading (eval, joint map, task)
+│   ├── batch.py                    # Batch parquet collection & path resolution
+│   └── verify_env.py               # Environment dependency checker
 │
 ├── configs/
 │   ├── eval_config.yaml            # Metric thresholds and weights
-│   ├── joint_maps/
-│   │   └── your_robot_joint.yaml         #  parquet ↔ Isaac Sim mapping
-│   └── tasks/
-│       └── your_task.yaml         # Task success criteria
+│   ├── pick_place.yaml             # Task success criteria
+│   └── joint_maps/
+│       └── g1_inspire.yaml         # Parquet ↔ Isaac Sim joint mapping
 │
-├── data/
-│   └── sample/
-│       └── episode_000000.parquet  # Sample trajectory
+├── scripts/
+│   ├── setup_env.sh                # One-click conda environment setup
+│   └── verify_env.py               # Environment verification CLI
+│
+├── tests/                          # pytest test suite
+│   ├── test_config_loader.py
+│   ├── test_batch_eval.py
+│   ├── test_verify_env.py
+│   └── test_replay_integration.py
+│
+├── assets/                         # Robot USD models
+│   └── 29dof/usd/g1_29dof_rev_1_0/
+│
+├── data/                           # Trajectory dataset (LeRobot v2 parquet)
+│   ├── data/chunk-000/             # Episode parquet files
+│   └── meta/                       # Dataset metadata
 │
 ├── results/                        # Generated reports (gitignored)
 │
@@ -150,35 +165,109 @@ sim-as-a-judge/
     └── figures/
 ```
 
-## Usage
+## Setup
 
-### Replay + Evaluate a Trajectory
+### Prerequisites
+
+- Python 3.10+
+- [Isaac Sim 5.0+](https://developer.nvidia.com/isaac-sim) with PhysX
+- NVIDIA GPU with CUDA support
+- conda (Miniconda or Anaconda)
+
+### Installation
 
 ```bash
-# Inside Isaac Sim container or environment
+# Option 1: Automated setup (recommended)
+bash scripts/setup_env.sh
+
+# Option 2: Manual setup
+conda activate env_isaaclab
+pip install -r requirements.txt
+pip install -e .   # install sim_judge package
+
+# Verify environment
+python scripts/verify_env.py
+```
+
+## Usage
+
+### Single Episode Evaluation
+
+```bash
 python replay_and_evaluate.py \
-    --parquet data/sample/episode_000000.parquet \
-    --robot-usd your_robot.usd \
+    --parquet data/data/chunk-000/episode_000001.parquet \
+    --robot-usd assets/g1_29dof/g1-29dof-inspire-base-fix-usd/g1_29dof_with_inspire_rev_1_0.usd \
     --output-video results/replay.mp4 \
     --output-report results/eval_report.json
 ```
 
-### Batch Evaluation
+### Batch Evaluation (all episodes in a directory)
 
 ```bash
 python replay_and_evaluate.py \
-    --parquet-dir data/episodes/ \
-    --robot-usd your_robot.usd \
+    --parquet-dir data/data/chunk-000 \
+    --robot-usd assets/g1_29dof/g1-29dof-inspire-base-fix-usd/g1_29dof_with_inspire_rev_1_0.usd \
+    --output-dir results/batch \
     --output-report results/batch_report.json
 ```
 
-### Generate HTML Report
+### Batch Evaluation (skip video for speed)
 
 ```bash
-python -m sim_judge.report \
-    --input results/batch_report.json \
-    --output results/report.html
+python replay_and_evaluate.py \
+    --parquet-dir data/data/chunk-000 \
+    --robot-usd assets/g1_29dof/g1-29dof-inspire-base-fix-usd/g1_29dof_with_inspire_rev_1_0.usd \
+    --output-dir results/batch \
+    --output-report results/batch_report.json \
+    --no-video
 ```
+
+### CLI Reference
+
+| Argument | Default | Description |
+|----------|---------|-------------|
+| `--parquet` | — | Single parquet file to evaluate |
+| `--parquet-dir` | — | Directory of parquet files (batch mode, overrides `--parquet`) |
+| `--robot-usd` | auto-detect | Path to robot USD file |
+| `--eval-config` | `configs/eval_config.yaml` | Evaluation thresholds and metric weights |
+| `--joint-map` | `configs/joint_maps/g1_inspire.yaml` | Parquet index ↔ Isaac Sim joint mapping |
+| `--task-config` | `configs/pick_place.yaml` | Task success criteria |
+| `--output-video` | `results/replay.mp4` | Video output path (single mode) |
+| `--output-report` | `results/eval_report.json` | JSON report path (single) or batch summary |
+| `--output-dir` | `results/batch` | Output directory for batch mode |
+| `--fps` | `30` | Video frame rate |
+| `--no-video` | `false` | Skip video recording (faster batch runs) |
+
+## Configuration
+
+All evaluation parameters are loaded from YAML config files (no hardcoded values in the replay script).
+
+### `configs/eval_config.yaml`
+
+Controls physics parameters, detection thresholds, metric weights, and pass/fail threshold.
+
+```yaml
+collision:
+  force_threshold: 1.0    # Newtons — contact force above this triggers collision flag
+joint_limits:
+  tolerance: 0.01         # rad — allowed overshoot beyond USD-defined limits
+gravity:
+  upward_accel_threshold: 1.9  # m/s² — flags unsupported upward object acceleration
+metric_weights:
+  joint_limit: 0.3
+  collision: 0.3
+  gravity: 0.2
+  task_fidelity: 0.2
+pass_threshold: 0.8
+```
+
+### `configs/joint_maps/g1_inspire.yaml`
+
+Maps parquet column indices to Isaac Sim joint names. Must match your dataset schema.
+
+### `configs/pick_place.yaml`
+
+Defines task-specific success criteria: reach distance, grasp detection, lift height delta, place target position, and subtask weights.
 
 ## Example Results
 
@@ -207,6 +296,17 @@ Overall: 0.41
 Failures:
   - gravity_violation: object levitates at frames 120-145
   - task_fidelity: grasp subtask failed (fingers open during lift)
+```
+
+## Testing
+
+```bash
+# Run all tests
+conda activate env_isaaclab
+pytest tests/ -v
+
+# Run with coverage
+pytest tests/ --cov=sim_judge --cov-report=term-missing
 ```
 
 ## Acknowledgments

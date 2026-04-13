@@ -36,17 +36,21 @@ class TaskFidelityChecker:
 
     def __init__(
         self,
-        target_position: list[float] = None,
+        target_position: list[float] | None = None,
         reach_threshold: float = 0.10,
         grasp_threshold: float = 0.08,
         lift_min_delta: float = 0.05,
         place_threshold: float = 0.10,
+        subtask_weights: dict[str, float] | None = None,
     ):
-        self.target_pos = np.array(target_position) if target_position else None
+        self.target_pos = np.array(target_position) if target_position is not None else None
         self.reach_thresh = reach_threshold
         self.grasp_thresh = grasp_threshold
         self.lift_delta = lift_min_delta
         self.place_thresh = place_threshold
+        self._weights = subtask_weights or {
+            "reach": 0.2, "grasp": 0.3, "lift": 0.3, "place": 0.2,
+        }
 
         self._min_ee_obj_dist = float("inf")
         self._grasp_detected = False
@@ -61,7 +65,7 @@ class TaskFidelityChecker:
         ee_position: np.ndarray,
         object_position: np.ndarray,
         hand_closed: bool = False,
-    ):
+    ) -> None:
         """Score one frame."""
         self._total_frames += 1
         ee = np.array(ee_position)
@@ -107,8 +111,7 @@ class TaskFidelityChecker:
             subtasks["place"] = 0.5  # cannot determine
 
         # Weighted average
-        weights = {"reach": 0.2, "grasp": 0.3, "lift": 0.3, "place": 0.2}
-        score = sum(weights[k] * subtasks[k] for k in weights)
+        score = sum(self._weights[k] * subtasks[k] for k in self._weights)
 
         failure_reasons = []
         failed = [k for k, v in subtasks.items() if v < 0.5]

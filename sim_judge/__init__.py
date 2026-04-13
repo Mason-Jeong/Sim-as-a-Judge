@@ -7,5 +7,13 @@ from .gravity_checker import GravityChecker, GravityResult
 from .task_fidelity_checker import TaskFidelityChecker, TaskFidelityResult
 from .aggregate import aggregate, SimJudgeVerdict
 from .report import save_json, print_verdict
+from .config_loader import (
+    load_eval_config,
+    load_joint_map,
+    load_task_config,
+    EvalConfig,
+    JointMapConfig,
+    TaskConfig,
+)
 
 __version__ = "0.1.0"

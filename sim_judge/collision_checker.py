@@ -45,7 +45,7 @@ class CollisionChecker:
         self._collision_frames = []
         self._max_force = 0.0
 
-    def check_frame(self, frame_idx: int, contact_forces: np.ndarray):
+    def check_frame(self, frame_idx: int, contact_forces: np.ndarray) -> None:
         """Check a single frame using PhysX contact sensor data.
 
         Args:
@@ -62,7 +62,7 @@ class CollisionChecker:
             self._max_force = max(self._max_force, force_mag)
 
     def check_frame_no_sensor(self, frame_idx: int, joint_positions: np.ndarray,
-                               joint_limits_lower: np.ndarray, joint_limits_upper: np.ndarray):
+                               joint_limits_lower: np.ndarray, joint_limits_upper: np.ndarray) -> None:
         """Fallback: infer potential collisions from joint position saturation.
 
         If joints are pushed to their limits, the robot may be colliding.

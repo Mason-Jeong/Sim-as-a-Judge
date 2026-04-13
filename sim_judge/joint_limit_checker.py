@@ -11,7 +11,7 @@ class JointLimitResult:
     score: float = 1.0
     total_violations: int = 0
     violation_frames: list[int] = field(default_factory=list)
-    per_joint_violations: dict = field(default_factory=dict)
+    per_joint_violations: dict[str, dict[str, int | float]] = field(default_factory=dict)
     failure_reasons: list[str] = field(default_factory=list)
 
     def to_dict(self) -> dict:
@@ -57,7 +57,7 @@ class JointLimitChecker:
         self._violations = []
         self._per_joint = {name: {"count": 0, "max_violation": 0.0} for name in joint_names}
 
-    def check_frame(self, frame_idx: int, joint_positions: np.ndarray):
+    def check_frame(self, frame_idx: int, joint_positions: np.ndarray) -> None:
         """Check a single frame for joint limit violations."""
         self.total_frames += 1
         pos = np.array(joint_positions[:self.n_joints])
